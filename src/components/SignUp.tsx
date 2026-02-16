@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { supabase } from "@/utils/supabase";
 import { Toaster } from "@/components/ui/sonner";
-import { CheckCircle, XCircle } from "lucide-react";
-import { toast } from "sonner"
+import { CheckCircle, LoaderIcon, XCircle } from "lucide-react";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
   const refreshToken = localStorage.getItem("refreshToken");
+  const [isLoading, setisLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (accessToken && refreshToken) {
@@ -26,19 +27,17 @@ const SignUp = () => {
     });
 
     if (error) {
-      if(error.message=="User already registered") {
-   console.error("Signup error:", error.message);
-      toast.error("Signup failed. User already exists", {
-        duration: 5000,
-      })
+      if (error.message == "User already registered") {
+        console.error("Signup error:", error.message);
+        toast.error("Signup failed. User already exists", {
+          duration: 5000,
+        });
+      } else if (error.message == "Signup requires a valid password") {
+        console.error("Signup error:", error.message);
+        toast.error("Signup requires a valid password", {
+          duration: 5000,
+        });
       }
-      else if(error.message=="Signup requires a valid password") {
-   console.error("Signup error:", error.message);
-      toast.error("Signup requires a valid password", {
-        duration: 5000,
-      })
-      }
-   ;
       return;
     }
 
@@ -46,9 +45,8 @@ const SignUp = () => {
       console.log("User ID:", data.user.id);
       const uid = data.user.id;
       toast.success("Registered Successfully now login to your account", {
-        duration:5000
-      })
-     
+        duration: 5000,
+      });
 
       const { data: insertedData, error: insertError } = await supabase
         .from("user")
@@ -64,12 +62,14 @@ const SignUp = () => {
 
       if (insertedData) {
         console.log("Data saved successfully inside");
-        toast.success("Account created successfully! Redirecting to dashboard...", {
-          duration: 5000,
-        });
+        toast.success(
+          "Account created successfully! Redirecting to dashboard...",
+          {
+            duration: 5000,
+          },
+        );
         // Delay navigation to allow toast to be visible
-          // navigate("/dashboard");
-      
+        // navigate("/dashboard");
       }
     }
   };
@@ -107,7 +107,6 @@ const SignUp = () => {
         <input
           className="border-1 rounded-sm border-gray-300 p-2"
           type="password"
-          placeholder="Nate123"
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
@@ -116,9 +115,17 @@ const SignUp = () => {
           className="bg-gradient-to-r from-blue-500 to-purple-400 text-white rounded-lg p-3 font-bold md:w-[400px]"
           onClick={signup}
         >
-          Create Account
+          {isLoading ? (
+              <LoaderIcon />
+        
+          ) : (
+            <span> Create Account</span>
+          )}
         </button>
       </div>
+      <footer className="flex item-center justify-center mt-10">
+        <span className="text-gray-600">Made with love by Yafet Yosef.</span>
+      </footer>
     </div>
   );
 };

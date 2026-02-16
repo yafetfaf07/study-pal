@@ -7,6 +7,7 @@ const SignUpPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      
   <div className=" bg-purple-50 p-10 rounded-lg md:w-[600px]">
     <div>
       <div className="flex items-center justify-between pl-2 pr-2">
@@ -51,14 +52,13 @@ const SignUpPage = () => {
           </button>
         </div>
       )}
+      
     </div>
 
     {isSign ? <SignUp /> : <Login />}
   </div>
 
-  <footer>
-    <span>Made with love by Yafet Yosef.</span>
-  </footer>
+
 </div>
 
   );

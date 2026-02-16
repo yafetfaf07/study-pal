@@ -3,8 +3,8 @@ import { Button } from "./ui/button";
 import { useNavigate } from "react-router";
 import { supabase } from "@/utils/supabase";
 import { Toaster } from "@/components/ui/sonner";
-import { toast } from "sonner"
-import { CheckCircle, XCircle } from "lucide-react";
+import { toast } from "sonner";
+import { CheckCircle, LoaderIcon, XCircle } from "lucide-react";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [isSuccessful, setIsSuccessful] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const [isLoading,setisLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (isSuccessful) {
@@ -31,6 +32,7 @@ const Login = () => {
   }, [isError]);
 
   const login = async () => {
+    setisLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -80,13 +82,16 @@ const Login = () => {
       </div>
 
       <div className="flex justify-center items-center">
-        <Button
-          className="bg-gradient-to-r from-blue-500 to-purple-400 w-40"
+        <button
+          className="bg-gradient-to-r from-blue-500 to-purple-400 text-white rounded-lg p-3 font-bold  md:w-[400px]"
           onClick={login}
         >
-          Login
-        </Button>
+          {isLoading ? <LoaderIcon/> : <span>Login</span>}
+        </button>
       </div>
+      <footer className="flex item-center justify-center mt-10">
+        <span className="text-gray-600">Made with love by Yafet Yosef.</span>
+      </footer>
     </div>
   );
 };
