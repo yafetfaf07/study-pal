@@ -18,4 +18,4 @@ Brain Brawl is an interactive web application designed to make studying and quiz
 - **Backend:**  Supabase  
 - **Database & Auth:** Supabase  
 - **AI:** Gemini API for question generation  
-- **Deployment:** Netlify
+- **Deployment:** Vercel

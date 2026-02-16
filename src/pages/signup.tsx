@@ -55,6 +55,10 @@ const SignUpPage = () => {
 
     {isSign ? <SignUp /> : <Login />}
   </div>
+
+  <footer>
+    <span>Made with love by Yafet Yosef.</span>
+  </footer>
 </div>
 
   );
