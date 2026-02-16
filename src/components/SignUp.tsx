@@ -21,6 +21,7 @@ const SignUp = () => {
   }, [navigate, accessToken, refreshToken]);
 
   const signup = async () => {
+    setisLoading(true);
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,

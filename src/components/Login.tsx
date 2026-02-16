@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Button } from "./ui/button";
 import { useNavigate } from "react-router";
 import { supabase } from "@/utils/supabase";
 import { Toaster } from "@/components/ui/sonner";
